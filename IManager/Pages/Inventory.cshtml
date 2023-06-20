@@ -1,0 +1,186 @@
+﻿@page "/"
+@using IManager.Models;
+
+@model InventoryModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Inventory";
+}
+<h1>Inventory</h1>
+
+<table class="table table-sortable">
+    <thead>
+        <tr>
+            <th data-sort="int">Item ID</th>
+            <th data-sort="string">Name</th>
+            <th data-sort="string">Description</th>
+            <th data-sort="float">Price</th>
+            <th>Locations</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr id="row-@item.itemID">
+                <td>@item.itemID</td>
+                <td class="product-name">@item.name</td>
+                <td class="product-description">@item.description</td>
+                <td class="product-price">@item.price</td>
+                <td>
+                    @foreach (var location in item.LocationInvItems)
+                    {
+                        <p>@location.Location.LocationName (@location.Quantity)</p>
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary editProductButton"
+                            data-product-id="@item.itemID"
+                            data-product-name="@item.name"
+                            data-product-description="@item.description"
+                            data-product-price="@item.price"
+                            data-toggle="modal"
+                            data-target="#editProductModal">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary removeProductButton"
+                            data-product-id="@item.itemID"
+                            data-product-name="@item.name"
+                            data-product-description="@item.description"
+                            data-product-price="@item.price"
+                            data-toggle="modal"
+                            data-target="#removeProductModal">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('.table-sortable').tsortable();
+        });
+
+        function setEditProductValues(button) {
+            var id = button.getAttribute("data-product-id");
+            var name = button.getAttribute("data-product-name");
+            var description = button.getAttribute("data-product-description");
+            var price = button.getAttribute("data-product-price");
+
+            $("#editProductId").val(id);
+            $("#editProductName").val(name);
+            $("#editProductDescription").val(description);
+            $("#editProductPrice").val(price);
+
+            // Set the EditProductId in the Razor Page model
+            document.getElementById("EditProductId").value = id;
+        }
+
+        function resetEditProductModal() {
+            $("#editProductForm")[0].reset();
+        }
+
+
+        $('#editProductForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Extract the form data
+            var formData = $(this).serialize();
+
+            // Update the selected location IDs in the hidden input field
+            var selectedLocationIds = [];
+            $('input[name="selectedLocationIds"]:checked').each(function () {
+                selectedLocationIds.push($(this).val());
+            });
+            $('#editSelectedLocationIds').val(selectedLocationIds);
+
+            // Send an AJAX request to save the changes
+            $.ajax({
+                url: $(this).attr('action'), // Get the URL from the form's action attribute
+                type: $(this).attr('method'), // Get the method from the form's method attribute
+                data: formData, // Use the serialized form data
+                success: function (response) {
+                    // Hide the modal
+                    $('#editProductModal').modal('hide');
+
+                    // Reload the page to fetch the updated data from the server
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error case
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#removeProductForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Extract the form data
+            var formData = $(this).serialize();
+
+            // Update the selected location IDs in the hidden input field
+            var selectedLocationIds = [];
+            $('input[name="selectedLocationIds"]:checked').each(function () {
+                selectedLocationIds.push($(this).val());
+            });
+            $('#editSelectedLocationIds').val(selectedLocationIds);
+
+            // Send an AJAX request to save the changes
+            $.ajax({
+                url: $(this).attr('action'), // Get the URL from the form's action attribute
+                type: $(this).attr('method'), // Get the method from the form's method attribute
+                data: formData, // Use the serialized form data
+                success: function (response) {
+                    // Hide the modal
+                    $('#editProductModal').modal('hide');
+
+                    // Reload the page to fetch the updated data from the server
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error case
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#addProductForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Extract the form data
+            var formData = $(this).serialize();
+
+            // Get the selected location ID and quantity
+            var selectedLocationId = $('#locationId').val();
+            var quantity = $('#quantity').val();
+
+            // Append the location ID and quantity to the form data
+            formData += '&selectedLocationId=' + selectedLocationId + '&quantity=' + quantity;
+
+            // Send an AJAX request to save the product
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                success: function (response) {
+                    // Handle success case
+                },
+                error: function (xhr, status, error) {
+                    // Handle error case
+                }
+            });
+        });
+
+    </script>
+}
+
+
+
+

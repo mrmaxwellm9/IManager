@@ -1,0 +1,289 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@model IManager.Pages.InventoryModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - IManager</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/IManager.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/tablesort.min.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Inventory">IManager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse ">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Inventory">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Inventory"  data-toggle="modal" data-target="#addProductModal">Add Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Inventory" data-toggle="modal" data-target="#addLocationModal">Add Location</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add product form here -->
+                    <form asp-page="/Inventory" asp-page-handler="AddProduct" method="post">
+                        <!-- Form fields for adding a product -->
+                        <div class="form-group">
+                            <label for="productID">Product ID:</label>
+                            <input type="number" class="form-control" id="productID" name="itemID" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="productName">Product Name:</label>
+                            <input type="text" class="form-control" id="productName" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescription">Product Description:</label>
+                            <textarea class="form-control" id="productDescription" name="description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Product Price:</label>
+                            <input type="number" class="form-control" id="productPrice" name="price" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="LocationIds" class="control-label">Locations</label>
+                            <div class="form-check">
+                                @foreach (var location in Model.Locations)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="location-@location.locationID" name="selectedLocationIds" value="@location.locationID">
+                                        <input type="number" id="quantity-@location.locationID" name="quantities[@location.locationID]" class="form-control">
+                                        <label class="form-check-label" for="location-@location.locationID">@location.LocationName</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                       <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit product form here -->
+                    <form id="editProductForm" asp-page="/Inventory" asp-page-handler="SaveProduct" method="post">
+                        <!-- Form fields for editing a product -->
+                        <input type="hidden" id="editProductId" name="id" value="" />
+                        <div class="form-group">
+                            <label for="editProductName">Product Name:</label>
+                            <input type="text" class="form-control" id="editProductName" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductDescription">Product Description:</label>
+                            <textarea class="form-control" id="editProductDescription" name="description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductPrice">Product Price:</label>
+                            <input type="number" class="form-control" id="editProductPrice" name="price" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editProductLocations">Locations:</label>
+                            <div class="form-check">
+                                @{
+                                    @foreach (var location in Model.Locations)
+                                    {
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="editLocation-@location.locationID" name="selectedLocationIds" value="@location.locationID">
+                                            <input type="number" id="quantity" name="quantity" class="form-control">
+                                            <label class="form-check-label" for="editLocation-@location.locationID">
+                                                @location.LocationName
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove Product Modal -->
+    <div class="modal fade" id="removeProductModal" tabindex="-1" role="dialog" aria-labelledby="removeProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="removeProductModalLabel">Confirm Remove Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Remove product form here -->
+                    <form id="removeProductForm" asp-page="/Inventory" asp-page-handler="RemoveProduct" method="post">
+                        <!-- Form fields for removing a product -->
+                        <input type="hidden" id="removeProductId" name="id" value="" />
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="removeProductName" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <textarea hidden class="form-control" id="removeProductDescription" name="description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="removeProductPrice" name="price" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                @{
+                                    @foreach (var location in Model.Locations)
+                                    {
+
+                                        <div class="form-check">
+                                            <input hidden class="form-check-input" type="checkbox" id="removeLocation-@location.locationID" name="selectedLocationIds" value="@location.locationID">
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="removeProductButton">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Add Location Modal -->
+    <div class="modal fade" id="addLocationModal" tabindex="-1" role="dialog" aria-labelledby="addLocationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLocationModalLabel">Add Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your form markup here -->
+                    <form id="addLocationForm" asp-page="/Inventory" asp-page-handler="CreateLocation" method="post">
+                        <div class="form-group">
+                            <label for="NewLocationString">Location Name:</label>
+                            <input class="form-control" asp-for="NewLocationString" />
+                            <span asp-validation-for="NewLocationString" class="text-danger"></span>
+                        </div>
+                        <!-- Add more form fields as needed -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add Location</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>document.querySelector('.table-sortable').tsortable()</script>
+    <script>
+        $(document).ready(function () {
+            var selectedProductId;
+
+            // Event handler for the "Edit Product" button click
+            $('.editProductButton').on('click', function () {
+                selectedProductId = $(this).data('product-id');
+
+                console.log(selectedProductId);
+                // Retrieve product details from data attributes
+                var productName = $(this).data('product-name');
+                var productDescription = $(this).data('product-description');
+                var productPrice = $(this).data('product-price');
+
+                // Set the values in the edit product form
+                $('#editProductId').val(selectedProductId);
+                $('#editProductName').val(productName);
+                $('#editProductDescription').val(productDescription);
+                $('#editProductPrice').val(productPrice);
+
+                // Open the modal
+                $('#editProductModal').modal('show');
+            });
+
+            $('.removeProductButton').on('click', function () {
+                selectedProductId = $(this).data('product-id');
+
+                console.log(selectedProductId);
+                // Retrieve product details from data attributes
+                var productName = $(this).data('product-name');
+                var productDescription = $(this).data('product-description');
+                var productPrice = $(this).data('product-price');
+
+                // Set the values in the edit product form
+                $('#removeProductId').val(selectedProductId);
+                $('#removeProductName').val(productName);
+                $('#removeProductDescription').val(productDescription);
+                $('#removeProductPrice').val(productPrice);
+
+                // Open the modal
+                $('#removeProductModal').modal('show');
+            });
+
+            // Event handler for the "Save Changes" button click
+            $('#saveChangesButton').on('click', function () {
+                // Submit the edit product form
+                $('#editProductForm').submit();
+            });
+
+            $('#removeProductButton').on('click', function () {               
+                $('#removeProductForm').submit();
+            });
+        });
+    </script>
+</body>
+</html>
