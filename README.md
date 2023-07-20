@@ -47,5 +47,5 @@ All the data that is accepted or removed by the user is stored or removed from a
 
 Most of the backend page processing can be found in the _Layout.cshtml, Inventory.cshtml.cs, and Inventory.cs files in the [pages](https://github.com/mrmaxwellm9/IManager/tree/master/IManager/Pages) folder.
 
-Sorting of the table is done with the [Stupid-table-plugin](https://joequery.github.io/Stupid-Table-Plugin/)
+Sorting of the table is done with the [Stupid-table-plugin](https://joequery.github.io/Stupid-Table-Plugin/) by Joseph "joequery" McCullough.
 
