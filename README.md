@@ -6,9 +6,9 @@ Webpage that allows users to create a virtual inventory of products which can ha
 
 ## Initiation 
 
-To use, download the [build](https://github.com/mrmaxwellm9/IManager-Build) repository to run the webpage server from an executable, or download this repository if would like to run the webserver via the program cs file. Once the server is running open a web browser and visit the https address the server is listening on.
+To use, download the [build](https://github.com/mrmaxwellm9/IManager-Build) repository to run the webpage server from an executable, or download this repository if would like to run the webserver via the program cs file. Once the server is running open a web browser and visit the http address the server is listening on.
 ![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/IManager%20running%20server.png?token=GHSAT0AAAAAACEFFZBSX5N46CT63KRXA3GGZFYFBGA "Server Running Picture")
-In the example above the https address you would visit is http://localhost:5000
+In the example above the http address you would visit is http://localhost:5000
 
 When the webpage loads you should see the screen below of something similar.
 ![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/IManager%20blank%20page.png?token=GHSAT0AAAAAACEFFZBTYGXDPCP7REPCFOUYZFYFBSA "Empty Inventory Image")
@@ -45,7 +45,7 @@ You can click "Item ID", "Name", "Description", or "Price" to sort the list nume
 ### Inner Workings
 All the data that is accepted or removed by the user is stored or removed from a SQLite database with the .NET entity framework. The SQLite database stores products and locations separately and links them together with a junction table. In the program, the processing of products and locations is done similarly; the location and product (InvItem) classes process their proper information and are linked together with an association class (LocationInvItem).
 
-Most of the backend page processing can be found in the _Layout.cshtml, Inventory.cshtml.cs, and Inventory.cs files.
+Most of the backend page processing can be found in the _Layout.cshtml, Inventory.cshtml.cs, and Inventory.cs files in the [pages](https://github.com/mrmaxwellm9/IManager/tree/master/IManager/Pages) folder.
 
 Sorting of the table is done with the [Stupid-table-plugin](https://joequery.github.io/Stupid-Table-Plugin/)
 
