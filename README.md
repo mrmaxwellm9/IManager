@@ -39,3 +39,13 @@ To remove a product in the inventory click the "Remove" button on the right side
 
 ## Additional Features and Program Information
 
+### Features
+You can click "Item ID", "Name", "Description", or "Price" to sort the list numerically or alphanumerically based on the row you are sorting.
+
+### Inner Workings
+All the data that is accepted or removed by the user is stored or removed from a SQLite database with the .NET entity framework. The SQLite database stores products and locations separately and links them together with a junction table. In the program, the processing of products and locations is done similarly; the location and product (InvItem) classes process their proper information and are linked together with an association class (LocationInvItem).
+
+Most of the backend page processing can be found in the _Layout.cshtml, Inventory.cshtml.cs, and Inventory.cs files.
+
+Sorting of the table is done with the [Stupid-table-plugin](https://joequery.github.io/Stupid-Table-Plugin/)
+
