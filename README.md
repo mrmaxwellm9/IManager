@@ -30,7 +30,7 @@ To add a product to the inventory click the "Add Product" tab on the top navigat
 
 ### Editing
 
-![Edit menu](https://github.com/mrmaxwellm9/IManager/assets/130167736/5270715b-6e0e-41d1-bb53-58402f88b1f6)
+![Edit menu](https://github.com/mrmaxwellm9/IManager/assets/130167736/5270715b-6e0e-41d1-bb53-58402f88b1f6)                                                          
 To edit a product in the inventory click the "Edit" button on the right side of the product in the inventory to open an edit prompt, change or add the desired information, and then click "Save Changes"
 
 ### Removing
