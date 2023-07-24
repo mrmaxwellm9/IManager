@@ -7,30 +7,30 @@ Webpage that allows users to create a virtual inventory of products which can ha
 ## Initiation 
 
 To use, download the [build](https://github.com/mrmaxwellm9/IManager-Build) repository to run the webpage server from an executable, or download this repository if would like to run the webserver via the program cs file. Once the server is running open a web browser and visit the http address the server is listening on.
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/IManager%20running%20server.png?token=GHSAT0AAAAAACEFFZBSX5N46CT63KRXA3GGZFYFBGA "Server Running Picture")
+![IManager running server](https://github.com/mrmaxwellm9/IManager/assets/130167736/fc24d43d-cd59-4078-be4b-5b9f835a58a4)
 In the example above the http address you would visit is http://localhost:5000
 
 When the webpage loads you should see the screen below of something similar.
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/IManager%20blank%20page.png?token=GHSAT0AAAAAACEFFZBTYGXDPCP7REPCFOUYZFYFBSA "Empty Inventory Image")
+![IManager blank page](https://github.com/mrmaxwellm9/IManager/assets/130167736/b6abba40-14cf-4da1-80d2-42e8e3c3c9b6)
 
 ## Adding Locations
 
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/Add%20Location.png?token=GHSAT0AAAAAACEFFZBSCH5VVNVBRUDGWYB6ZFZPRNQ "Add Location Prompt")
+![Add Location](https://github.com/mrmaxwellm9/IManager/assets/130167736/1d82d6f5-1e21-4136-8875-2f09b4fa5138)
 To add a location to associate products with, simply click the "Add Location" tab on the top navigation bar, enter the location name in the input popup and finally click "Add Location".
 
 ## Adding Products
 
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/Add%20Product%20with%20Loc.png?token=GHSAT0AAAAAACEFFZBSLUREDYD52QB2LEL2ZFZPTXQ "Add Product Prompt")
+![Add Product with Loc](https://github.com/mrmaxwellm9/IManager/assets/130167736/5bca0cd3-cb56-490e-a9cd-69fc8c956e32)
 To add a product to the inventory click the "Add Product" tab on the top navigation bar to open the prompt. Then, enter the desired Product ID, Product Name, Product Description, Product Price, and Locations; for locations check the box for each location you which to add and enter the quantity of the product at that location in the input bar above the location name.
 
 ## Editing and Removing Products
 
 ###### Example inventory with one product (Apple) and one location (California)
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/Inventory%20with%20one%20product.png?token=GHSAT0AAAAAACEFFZBT5H2DW6M2OPOF52QIZFZP4BQ "Example Inventory")
+![Inventory with one product](https://github.com/mrmaxwellm9/IManager/assets/130167736/30b549e6-6030-48d6-b947-6771152f815d)
 
 ### Editing
 
-![alt text](https://raw.githubusercontent.com/mrmaxwellm9/images/main/Edit%20menu.png?token=GHSAT0AAAAAACEFFZBTW4DPDDSUCUCZILG4ZFZP4CQ "Edit Prompt")
+![Edit menu](https://github.com/mrmaxwellm9/IManager/assets/130167736/5270715b-6e0e-41d1-bb53-58402f88b1f6)
 To edit a product in the inventory click the "Edit" button on the right side of the product in the inventory to open an edit prompt, change or add the desired information, and then click "Save Changes"
 
 ### Removing
