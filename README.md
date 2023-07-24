@@ -1,4 +1,4 @@
-# Imagager
+# IMagager
 
 Webpage that allows users to create a virtual inventory of products which can have a location, name, description, and price; and each location product pair can have a quantity value associated with them. Built using the ASP.NET framework. 
 
